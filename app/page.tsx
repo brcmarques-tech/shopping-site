@@ -1,23 +1,17 @@
 "use client";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import type { SiteContent } from "@/lib/site-content";
 import {
   ShoppingBag, Truck, Star, Store, BarChart2, Shield, Zap,
   MapPin, Coffee, Scissors, Dumbbell, BookOpen, Heart, Wrench,
   Smartphone, Package, ChevronRight, Download, ArrowRight,
   Pizza, Shirt, Home, Pill, Flower, Car, Baby, Gift,
 } from "lucide-react";
-import Stats from "@/components/Stats";
 import PlanCard from "@/components/PlanCard";
 import FaqItem from "@/components/FaqItem";
 import { fadeInUp, fadeIn, staggerContainer, scaleIn, slideInLeft, slideInRight, viewportOnce } from "@/lib/motion";
-
-const STATS = [
-  { value: 200, suffix: "+", label: "Lojas cadastradas" },
-  { value: 5000, suffix: "+", label: "Produtos disponíveis" },
-  { value: 10000, suffix: "+", label: "Clientes ativos" },
-  { value: 98, suffix: "%", label: "Satisfação" },
-];
 
 const PRODUCT_CATEGORIES = [
   { icon: Pizza, label: "Alimentação" },
@@ -111,7 +105,29 @@ const FAQS = [
   },
 ];
 
+const CONTENT_DEFAULTS: SiteContent = {
+  hero_title: 'Compre local. Venda mais. Tudo num app.',
+  hero_subtitle:
+    'Conectamos clientes a lojas e serviços locais com entrega rápida. Para vendedores, o painel mais simples e poderoso para gerenciar seu negócio digital.',
+  platform_description: 'Marketplace local para produtos e serviços. Conectando clientes e vendedores.',
+  contact_whatsapp: '+55 53 8442-4244',
+  contact_email: 'contato@bcmtech.com.br',
+  app_download_url: '',
+  app_download_text: 'Em breve nas lojas',
+  show_stats: false,
+  show_testimonials: false,
+};
+
 export default function HomePage() {
+  const [content, setContent] = useState<SiteContent>(CONTENT_DEFAULTS);
+
+  useEffect(() => {
+    fetch('/api/site-content')
+      .then((r) => r.json())
+      .then((data: SiteContent) => setContent(data))
+      .catch(() => {/* keep defaults */});
+  }, []);
+
   return (
     <>
       {/* Hero */}
@@ -128,19 +144,16 @@ export default function HomePage() {
             </motion.div>
 
             <motion.h1 variants={fadeInUp} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
-              Compre local.{" "}
-              <span className="gradient-text">Venda mais.</span>
-              <br />
-              Tudo num app.
+              {content.hero_title}
             </motion.h1>
 
             <motion.p variants={fadeInUp} className="max-w-2xl mx-auto text-lg text-[#9ca3af] leading-relaxed">
-              Conectamos clientes a lojas e serviços locais com entrega rápida. Para vendedores, o painel mais simples e poderoso para gerenciar seu negócio digital.
+              {content.hero_subtitle}
             </motion.p>
 
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                href="#download"
+                href={content.app_download_url || "#download"}
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-[#f97316] text-white font-semibold hover:bg-[#ea6c0a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(249,115,22,0.4)]"
               >
                 <Download className="w-5 h-5" /> Baixe o app
@@ -153,14 +166,6 @@ export default function HomePage() {
               </Link>
             </motion.div>
 
-            <motion.div variants={fadeIn} className="flex items-center justify-center gap-2 text-sm text-[#9ca3af]">
-              <Star className="w-4 h-4 text-[#f97316] fill-[#f97316]" />
-              <Star className="w-4 h-4 text-[#f97316] fill-[#f97316]" />
-              <Star className="w-4 h-4 text-[#f97316] fill-[#f97316]" />
-              <Star className="w-4 h-4 text-[#f97316] fill-[#f97316]" />
-              <Star className="w-4 h-4 text-[#f97316] fill-[#f97316]" />
-              <span className="ml-1">+10.000 clientes satisfeitos</span>
-            </motion.div>
           </motion.div>
         </div>
 
@@ -172,11 +177,6 @@ export default function HomePage() {
         >
           <ChevronRight className="w-5 h-5 text-[#9ca3af] rotate-90" />
         </motion.div>
-      </section>
-
-      {/* Stats */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <Stats items={STATS} />
       </section>
 
       {/* How it works */}
@@ -366,44 +366,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <motion.div variants={fadeInUp} initial="hidden" whileInView="visible" viewport={viewportOnce} className="text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-bold mb-3">
-            O que dizem nossos <span className="gradient-text">usuários</span>
-          </h2>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            { name: "Maria Silva", role: "Proprietária, Padaria Doce Sabor", text: "Aumentei minhas vendas em 3x depois que entrei no bcmTech Shopping. O painel é incrível!", rating: 5 },
-            { name: "João Ferreira", role: "Personal Trainer", text: "Agendo clientes pelo app sem precisar de WhatsApp. Profissional demais! Recomendo muito.", rating: 5 },
-            { name: "Ana Costa", role: "Cliente", text: "Recebo minhas compras rapidinho e o rastreamento em tempo real é sensacional. App top!", rating: 5 },
-          ].map((t, i) => (
-            <motion.div
-              key={t.name}
-              variants={scaleIn}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewportOnce}
-              transition={{ delay: i * 0.15 }}
-              className="p-6 rounded-2xl bg-[#1f2937] border border-[#374151]"
-            >
-              <div className="flex gap-1 mb-3">
-                {Array.from({ length: t.rating }).map((_, j) => (
-                  <Star key={j} className="w-4 h-4 text-[#f97316] fill-[#f97316]" />
-                ))}
-              </div>
-              <p className="text-sm text-[#d1d5db] leading-relaxed mb-4">"{t.text}"</p>
-              <div>
-                <div className="font-semibold text-sm text-[#f9fafb]">{t.name}</div>
-                <div className="text-xs text-[#9ca3af]">{t.role}</div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
       {/* Download CTA */}
       <section id="download" className="py-20 px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -418,12 +380,18 @@ export default function HomePage() {
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">Pronto para começar?</h2>
             <p className="text-white/80 mb-8 max-w-lg mx-auto">Baixe o app grátis ou cadastre sua loja agora mesmo.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="#"
-                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-white text-[#f97316] font-bold hover:bg-white/90 transition-all"
-              >
-                <Download className="w-5 h-5" /> Baixar app Android
-              </a>
+              {content.app_download_url ? (
+                <Link
+                  href={content.app_download_url}
+                  className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-white text-[#f97316] font-bold hover:bg-white/90 transition-all"
+                >
+                  <Download className="w-5 h-5" /> {content.app_download_text}
+                </Link>
+              ) : (
+                <span className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-white/30 text-white/60 font-bold cursor-not-allowed">
+                  {content.app_download_text}
+                </span>
+              )}
               <Link
                 href="https://shopping.bcmtech.com.br/register"
                 className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl border-2 border-white text-white font-bold hover:bg-white/10 transition-all"

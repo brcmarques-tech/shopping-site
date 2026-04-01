@@ -63,27 +63,6 @@ const SERVICE_CATEGORIES = [
   { icon: Star, label: "Fotografia" },
 ];
 
-const TESTIMONIALS = [
-  {
-    name: "Ana Costa",
-    role: "Cliente desde 2024",
-    text: "O rastreamento em tempo real é incrível! Sei exatamente onde está meu pedido. App superou minhas expectativas.",
-    rating: 5,
-  },
-  {
-    name: "Lucas Pereira",
-    role: "Cliente desde 2024",
-    text: "Compro minha comida e ainda agendar meu corte de cabelo no mesmo app. Praticidade total no dia a dia!",
-    rating: 5,
-  },
-  {
-    name: "Camila Souza",
-    role: "Cliente desde 2025",
-    text: "Ótimas lojas locais, preços justos e entrega bem rápida. Finalmente um marketplace que valoriza o comércio da minha cidade.",
-    rating: 5,
-  },
-];
-
 export default function ClientesPage() {
   return (
     <>
@@ -111,21 +90,7 @@ export default function ClientesPage() {
             </motion.p>
 
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="#download"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-[#f97316] text-white font-semibold hover:bg-[#ea6c0a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(249,115,22,0.4)]"
-              >
-                <Download className="w-5 h-5" /> Baixar app Android
-              </Link>
-            </motion.div>
-
-            <motion.div variants={fadeIn} className="flex items-center justify-center gap-2 text-sm text-[#9ca3af]">
-              <Star className="w-4 h-4 text-[#f97316] fill-[#f97316]" />
-              <Star className="w-4 h-4 text-[#f97316] fill-[#f97316]" />
-              <Star className="w-4 h-4 text-[#f97316] fill-[#f97316]" />
-              <Star className="w-4 h-4 text-[#f97316] fill-[#f97316]" />
-              <Star className="w-4 h-4 text-[#f97316] fill-[#f97316]" />
-              <span className="ml-1">+10.000 clientes satisfeitos</span>
+              <span className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-white/30 text-white/60 font-bold cursor-not-allowed"><Download className="w-5 h-5" /> Em breve nas lojas</span>
             </motion.div>
           </motion.div>
         </div>
@@ -285,58 +250,12 @@ export default function ClientesPage() {
             <p className="text-white/80 mb-8 max-w-lg mx-auto">
               Disponível para Android. Instale o APK e comece a comprar em lojas e serviços da sua cidade.
             </p>
-            <a
-              href="#"
-              className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-xl bg-white text-[#f97316] font-bold hover:bg-white/90 transition-all hover:scale-105 text-lg shadow-xl"
-            >
-              <Download className="w-5 h-5" /> Baixar app Android
-            </a>
+            <span className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-white/30 text-white/60 font-bold cursor-not-allowed"><Download className="w-5 h-5" /> Em breve nas lojas</span>
             <p className="text-white/60 text-xs mt-4">APK para Android · Gratuito · Sem anúncios</p>
           </div>
         </motion.div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <motion.div variants={fadeInUp} initial="hidden" whileInView="visible" viewport={viewportOnce} className="text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-bold mb-3">
-            O que dizem nossos <span className="gradient-text">clientes</span>
-          </h2>
-          <p className="text-[#9ca3af] max-w-xl mx-auto">
-            Avaliações reais de quem já usa o bcmTech Shopping no dia a dia.
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {TESTIMONIALS.map((t, i) => (
-            <motion.div
-              key={t.name}
-              variants={scaleIn}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewportOnce}
-              transition={{ delay: i * 0.15 }}
-              className="p-6 rounded-2xl bg-[#1f2937] border border-[#374151] hover:border-[#f97316]/20 transition-colors"
-            >
-              <div className="flex gap-1 mb-3">
-                {Array.from({ length: t.rating }).map((_, j) => (
-                  <Star key={j} className="w-4 h-4 text-[#f97316] fill-[#f97316]" />
-                ))}
-              </div>
-              <p className="text-sm text-[#d1d5db] leading-relaxed mb-4">"{t.text}"</p>
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-[#f97316]/20 flex items-center justify-center text-[#f97316] font-bold text-sm">
-                  {t.name.charAt(0)}
-                </div>
-                <div>
-                  <div className="font-semibold text-sm text-[#f9fafb]">{t.name}</div>
-                  <div className="text-xs text-[#9ca3af]">{t.role}</div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
     </>
   );
 }

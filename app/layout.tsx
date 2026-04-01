@@ -10,6 +10,11 @@ export const metadata: Metadata = {
   title: { default: "bcmTech Shopping", template: "%s | bcmTech Shopping" },
   description: "O marketplace da sua cidade. Compre produtos e contrate serviços locais com entrega rápida.",
   keywords: ["marketplace", "delivery", "compras online", "serviços locais"],
+  icons: {
+    icon: '/icon.png',
+    shortcut: '/favicon.png',
+    apple: '/icon.png',
+  },
   openGraph: {
     type: "website",
     locale: "pt_BR",
@@ -17,6 +22,7 @@ export const metadata: Metadata = {
     siteName: "bcmTech Shopping",
     title: "bcmTech Shopping — O marketplace da sua cidade",
     description: "Compre produtos e contrate serviços locais com entrega rápida.",
+    images: [{ url: '/icon.png', width: 1024, height: 1024 }],
   },
   twitter: { card: "summary_large_image" },
 };

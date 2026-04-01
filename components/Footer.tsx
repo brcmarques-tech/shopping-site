@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ShoppingBag, Share2, MessageCircle, Mail, Phone } from "lucide-react";
+import Image from "next/image";
+import { Share2, MessageCircle, Mail, Phone } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -8,11 +9,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
           <div>
-            <Link href="/" className="flex items-center gap-2 font-bold text-lg mb-3">
-              <div className="w-8 h-8 rounded-lg bg-[#f97316] flex items-center justify-center">
-                <ShoppingBag className="w-4 h-4 text-white" />
-              </div>
-              <span>bcm<span className="text-[#f97316]">Tech</span> Shopping</span>
+            <Link href="/" className="flex items-center mb-3">
+              <Image src="/logo.svg" alt="bcmTech Shopping" width={120} height={40} />
             </Link>
             <p className="text-sm text-[#9ca3af] leading-relaxed">
               O marketplace da sua cidade. Compre produtos e contrate serviços locais com entrega rápida.
