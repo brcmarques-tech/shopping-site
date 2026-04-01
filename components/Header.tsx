@@ -1,8 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { ShoppingBag, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 const NAV_LINKS = [
   { href: "/", label: "Início" },
@@ -31,13 +32,8 @@ export default function Header() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-          <div className="w-8 h-8 rounded-lg bg-[#f97316] flex items-center justify-center">
-            <ShoppingBag className="w-4 h-4 text-white" />
-          </div>
-          <span>
-            bcm<span className="text-[#f97316]">Tech</span> Shopping
-          </span>
+        <Link href="/" className="flex items-center">
+          <Image src="/logo.svg" alt="bcmTech Shopping" width={130} height={44} priority />
         </Link>
 
         {/* Desktop Nav */}

@@ -427,7 +427,7 @@ export default function VendedoresPage() {
               Pronto para vender mais?
             </h2>
             <p className="text-white/80 mb-8 max-w-lg mx-auto text-lg">
-              Junte-se a centenas de lojas que já vendem pelo bcmTech Shopping. Comece grátis, sem cartão de crédito.
+              Cadastre sua loja e comece a vender para clientes da sua região. Grátis, sem cartão de crédito.
             </p>
             <Link
               href="https://shopping.bcmtech.com.br/register"
