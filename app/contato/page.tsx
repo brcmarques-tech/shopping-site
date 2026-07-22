@@ -1,11 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   MessageCircle, Mail, Clock, MapPin, Send,
   Share2, ChevronRight,
 } from "lucide-react";
 import { fadeInUp, fadeIn, staggerContainer, scaleIn, slideInLeft, slideInRight, viewportOnce } from "@/lib/motion";
+import type { SiteContent } from "@/lib/site-content";
 
 type FormData = {
   name: string;
@@ -14,32 +15,21 @@ type FormData = {
   message: string;
 };
 
-const CONTACT_CARDS = [
-  {
-    icon: MessageCircle,
-    label: "WhatsApp",
-    value: "+55 53 8442-4244",
-    sub: "Resposta em minutos",
-    href: "https://wa.me/5553844242244",
-    color: "#25d366",
-  },
-  {
-    icon: Mail,
-    label: "Email",
-    value: "contato@bcmtech.com.br",
-    sub: "Resposta em até 24h",
-    href: "mailto:contato@bcmtech.com.br",
-    color: "#f97316",
-  },
-  {
-    icon: Clock,
-    label: "Horário de atendimento",
-    value: "Seg–Sex, 8h às 18h",
-    sub: "Horário de Brasília",
-    href: null,
-    color: "#3b82f6",
-  },
-];
+const DEFAULTS: SiteContent = {
+  hero_title: "Compre local. Venda mais. Tudo num app.",
+  hero_subtitle: "Conectamos clientes a lojas e serviços locais com entrega rápida.",
+  platform_description: "",
+  contact_whatsapp: "+55 53 8442-4244",
+  contact_email: "contato@bcmtech.com.br",
+  app_download_url: "",
+  app_download_text: "Em breve nas lojas",
+  show_stats: false,
+  show_testimonials: false,
+};
+
+function toWaUrl(phone: string) {
+  return "https://wa.me/" + phone.replace(/\D/g, "");
+}
 
 const SUBJECTS = [
   { value: "", label: "Selecione o assunto..." },
@@ -49,25 +39,60 @@ const SUBJECTS = [
   { value: "outro", label: "Outro" },
 ];
 
-const SOCIALS = [
-  {
-    icon: Share2,
-    label: "Instagram",
-    href: "https://instagram.com/bcmtech",
-    handle: "@bcmtech",
-  },
-  {
-    icon: MessageCircle,
-    label: "WhatsApp",
-    href: "https://wa.me/5553844242244",
-    handle: "+55 53 8442-4244",
-  },
-];
-
 export default function ContatoPage() {
   const [form, setForm] = useState<FormData>({ name: "", email: "", subject: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [content, setContent] = useState<SiteContent>(DEFAULTS);
+
+  useEffect(() => {
+    fetch("/api/site-content")
+      .then((r) => r.json())
+      .then((data) => setContent(data))
+      .catch(() => {});
+  }, []);
+
+  const CONTACT_CARDS = [
+    {
+      icon: MessageCircle,
+      label: "WhatsApp",
+      value: content.contact_whatsapp,
+      sub: "Resposta em minutos",
+      href: toWaUrl(content.contact_whatsapp),
+      color: "#25d366",
+    },
+    {
+      icon: Mail,
+      label: "Email",
+      value: content.contact_email,
+      sub: "Resposta em até 24h",
+      href: `mailto:${content.contact_email}`,
+      color: "#f97316",
+    },
+    {
+      icon: Clock,
+      label: "Horário de atendimento",
+      value: "Seg–Sex, 8h às 18h",
+      sub: "Horário de Brasília",
+      href: null,
+      color: "#3b82f6",
+    },
+  ];
+
+  const SOCIALS = [
+    {
+      icon: Share2,
+      label: "Instagram",
+      href: "https://instagram.com/bcmtech",
+      handle: "@bcmtech",
+    },
+    {
+      icon: MessageCircle,
+      label: "WhatsApp",
+      href: toWaUrl(content.contact_whatsapp),
+      handle: content.contact_whatsapp,
+    },
+  ];
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));

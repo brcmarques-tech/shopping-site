@@ -11,9 +11,9 @@ export const metadata: Metadata = {
   description: "O marketplace da sua cidade. Compre produtos e contrate serviços locais com entrega rápida.",
   keywords: ["marketplace", "delivery", "compras online", "serviços locais"],
   icons: {
-    icon: '/icon.png',
-    shortcut: '/favicon.png',
-    apple: '/icon.png',
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
   },
   openGraph: {
     type: "website",

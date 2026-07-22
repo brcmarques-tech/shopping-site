@@ -1,8 +1,16 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Share2, MessageCircle, Mail, Phone } from "lucide-react";
+import { getSiteContent } from "@/lib/site-content";
 
-export default function Footer() {
+function toWaUrl(phone: string) {
+  return "https://wa.me/" + phone.replace(/\D/g, "");
+}
+
+export default async function Footer() {
+  const content = await getSiteContent();
+  const waUrl = toWaUrl(content.contact_whatsapp);
+
   return (
     <footer className="bg-[#0d1420] border-t border-[#374151] mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
@@ -52,15 +60,19 @@ export default function Footer() {
             <ul className="space-y-3 text-sm text-[#9ca3af]">
               <li className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-[#f97316] shrink-0" />
-                <a href="tel:+5553844242444" className="hover:text-[#f97316] transition-colors">+55 53 8442-4244</a>
+                <a href={`tel:${content.contact_whatsapp.replace(/\D/g, "")}`} className="hover:text-[#f97316] transition-colors">
+                  {content.contact_whatsapp}
+                </a>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-[#f97316] shrink-0" />
-                <a href="mailto:contato@bcmtech.com.br" className="hover:text-[#f97316] transition-colors">contato@bcmtech.com.br</a>
+                <a href={`mailto:${content.contact_email}`} className="hover:text-[#f97316] transition-colors">
+                  {content.contact_email}
+                </a>
               </li>
               <li className="flex items-center gap-2">
                 <MessageCircle className="w-4 h-4 text-[#f97316] shrink-0" />
-                <a href="https://wa.me/5553844242444" target="_blank" rel="noopener noreferrer" className="hover:text-[#f97316] transition-colors">WhatsApp</a>
+                <a href={waUrl} target="_blank" rel="noopener noreferrer" className="hover:text-[#f97316] transition-colors">WhatsApp</a>
               </li>
             </ul>
           </div>
@@ -75,7 +87,7 @@ export default function Footer() {
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-[#9ca3af] hover:text-[#f97316] transition-colors">
               <Share2 className="w-5 h-5" />
             </a>
-            <a href="https://wa.me/5553844242444" target="_blank" rel="noopener noreferrer" className="text-[#9ca3af] hover:text-[#f97316] transition-colors">
+            <a href={waUrl} target="_blank" rel="noopener noreferrer" className="text-[#9ca3af] hover:text-[#f97316] transition-colors">
               <MessageCircle className="w-5 h-5" />
             </a>
           </div>
