@@ -7,6 +7,9 @@ import Footer from "@/components/Footer";
 const geist = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  // KAN-219: sem metadataBase o Next resolve URLs relativas de OG/canonical
+  // errado (avisa em build e a OG image nao carrega no compartilhamento).
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://shop.bcmtech.com.br"),
   title: { default: "bcmTech Shopping", template: "%s | bcmTech Shopping" },
   description: "O marketplace da sua cidade. Compre produtos e contrate serviços locais com entrega rápida.",
   keywords: ["marketplace", "delivery", "compras online", "serviços locais"],
