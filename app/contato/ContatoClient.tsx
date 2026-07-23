@@ -33,6 +33,7 @@ export default function ContatoClient({ content }: { content: SiteContent }) {
   const [form, setForm] = useState<FormData>({ name: "", email: "", subject: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const CONTACT_CARDS = [
     {
@@ -80,14 +81,27 @@ export default function ContatoClient({ content }: { content: SiteContent }) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  // KAN-220: antes era um setTimeout falso que descartava o lead. Agora posta
+  // para /api/contact, que encaminha ao webhook do n8n no servidor.
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
-    // Simula envio (sem backend)
-    setTimeout(() => {
-      setLoading(false);
+    setError(null);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error(`status ${res.status}`);
       setSubmitted(true);
-    }, 1200);
+    } catch {
+      setError(
+        "Não foi possível enviar sua mensagem agora. Tente novamente ou fale com a gente pelo WhatsApp ou email acima.",
+      );
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -266,6 +280,12 @@ export default function ContatoClient({ content }: { content: SiteContent }) {
                       </>
                     )}
                   </button>
+
+                  {error && (
+                    <p role="alert" className="text-sm text-red-400 text-center">
+                      {error}
+                    </p>
+                  )}
                 </form>
               )}
             </div>
