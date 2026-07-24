@@ -11,6 +11,8 @@ import {
 import PlanCard from "@/components/PlanCard";
 import FaqItem from "@/components/FaqItem";
 import { fadeInUp, fadeIn, staggerContainer, scaleIn, slideInLeft, slideInRight, viewportOnce } from "@/lib/motion";
+// KAN-251: numeros de pricing vem de uma fonte unica
+import { PLAN_MONTHLY_PRICE, commissionLabel, productsLabel, storesLabel } from "@/lib/pricing";
 
 const PRODUCT_CATEGORIES = [
   { icon: Pizza, label: "Alimentação" },
@@ -55,31 +57,34 @@ const CLIENT_FEATURES = [
 ];
 
 const PLANS = [
+  // KAN-251: precos/comissoes/limites vem de lib/pricing.ts (fonte unica).
+  // Antes estavam escritos a mao aqui, em /planos, em /vendedores e no texto do
+  // FAQ — mudar um preco exigia lembrar dos 4 lugares.
   {
     name: "Free",
-    price: 0,
+    price: PLAN_MONTHLY_PRICE.Free ?? 0,
     period: "mês",
     description: "Para começar sem investimento",
-    features: ["1 loja", "50 produtos", "5% de comissão", "Suporte básico"],
+    features: [storesLabel("Free"), productsLabel("Free"), commissionLabel("Free"), "Suporte básico"],
     cta: "Começar grátis",
     ctaHref: "https://shopping.bcmtech.com.br/register",
   },
   {
     name: "Pro",
-    price: 49.90,
+    price: PLAN_MONTHLY_PRICE.Pro ?? 0,
     period: "mês",
     description: "Para quem quer crescer",
-    features: ["3 lojas", "200 produtos", "2% de comissão", "Analytics avançado", "Cupons de desconto", "Suporte prioritário"],
+    features: [storesLabel("Pro"), productsLabel("Pro"), commissionLabel("Pro"), "Analytics avançado", "Cupons de desconto", "Suporte prioritário"],
     cta: "Assinar Pro",
     ctaHref: "https://shopping.bcmtech.com.br/register",
     popular: true,
   },
   {
     name: "Premium",
-    price: 99.90,
+    price: PLAN_MONTHLY_PRICE.Premium ?? 0,
     period: "mês",
     description: "Para negócios em expansão",
-    features: ["10 lojas", "Produtos ilimitados", "0% de comissão", "Analytics completo", "Selo verificado", "Suporte prioritário 24h"],
+    features: [storesLabel("Premium"), productsLabel("Premium"), commissionLabel("Premium"), "Analytics completo", "Selo verificado", "Suporte prioritário 24h"],
     cta: "Assinar Premium",
     ctaHref: "https://shopping.bcmtech.com.br/register",
   },

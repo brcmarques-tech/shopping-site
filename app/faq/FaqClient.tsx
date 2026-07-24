@@ -3,8 +3,16 @@ import { motion } from "framer-motion";
 import { HelpCircle, Store, ShoppingBag, CreditCard, Truck } from "lucide-react";
 import FaqItem from "@/components/FaqItem";
 import { fadeInUp, staggerContainer, viewportOnce } from "@/lib/motion";
+import type { SiteContent } from "@/lib/site-content";
 
-const FAQ_SECTIONS = [
+function toWaUrl(phone: string) {
+  return "https://wa.me/" + phone.replace(/\D/g, "");
+}
+
+// KAN-250: as respostas citavam o telefone HARDCODED e divergente do CMS —
+// editar o numero no painel nao corrigia esta pagina. Agora o numero entra por
+// parametro, vindo do CMS via server component.
+const buildFaqSections = (whatsapp: string) => [
   {
     id: "geral",
     icon: HelpCircle,
@@ -25,7 +33,7 @@ const FAQ_SECTIONS = [
       },
       {
         q: "Como entro em contato com o suporte?",
-        a: "Você pode falar conosco pelo WhatsApp (55) 53 8442-4244 em horário comercial (seg-sex, 8h às 18h), ou pelo email contato@bcmtech.com.br. Para vendedores com plano Pro ou Premium, oferecemos suporte prioritário com tempo de resposta reduzido.",
+        a: `Você pode falar conosco pelo WhatsApp ${whatsapp} em horário comercial (seg-sex, 8h às 18h), ou pelo email contato@bcmtech.com.br. Para vendedores com plano Pro ou Premium, oferecemos suporte prioritário com tempo de resposta reduzido.`,
       },
     ],
   },
@@ -113,13 +121,18 @@ const FAQ_SECTIONS = [
       },
       {
         q: "O que faço se meu pedido não chegar ou chegar com problema?",
-        a: "Entre em contato imediatamente com nosso suporte pelo WhatsApp (55) 53 8442-4244 ou pelo app, na seção 'Meus Pedidos' → 'Reportar problema'. Nossa equipe analisa cada caso e, se confirmado o problema, providencia reenvio ou estorno. Não aprove a entrega no app se o pedido apresentar divergências.",
+        a: `Entre em contato imediatamente com nosso suporte pelo WhatsApp ${whatsapp} ou pelo app, na seção 'Meus Pedidos' → 'Reportar problema'. Nossa equipe analisa cada caso e, se confirmado o problema, providencia reenvio ou estorno. Não aprove a entrega no app se o pedido apresentar divergências.`,
       },
     ],
   },
 ];
 
-export default function FaqPage() {
+export default function FaqPage({ content }: { content: SiteContent }) {
+  // KAN-250: numero unico, vindo do CMS (server component) — antes o FAQ tinha
+  // o telefone escrito a mao e divergente do resto do site.
+  const FAQ_SECTIONS = buildFaqSections(content.contact_whatsapp);
+  const waUrl = toWaUrl(content.contact_whatsapp);
+
   return (
     <>
       {/* Hero */}
@@ -223,7 +236,7 @@ export default function FaqPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a
-              href="https://wa.me/5553844242244"
+              href={waUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#f97316] text-white font-semibold hover:bg-[#ea6c0a] transition-all hover:scale-105"

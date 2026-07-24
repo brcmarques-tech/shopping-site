@@ -1,6 +1,11 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL?.replace('/graphql', '')
-  ? `${process.env.NEXT_PUBLIC_API_URL}`
-  : 'https://api.bcmtech.com.br/graphql';
+// KAN-257: a versao anterior era
+//   NEXT_PUBLIC_API_URL?.replace('/graphql','') ? NEXT_PUBLIC_API_URL : default
+// O resultado do replace era descartado (servia apenas como teste de
+// truthiness), o ramo verdadeiro usava a env crua, e se a env fosse exatamente
+// "/graphql" o replace virava "" (falsy) e caia no default. Convoluto e
+// mascarava a intencao — simplificado para o comportamento pretendido.
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || 'https://api.bcmtech.com.br/graphql';
 
 export interface SiteContent {
   hero_title: string;
@@ -10,6 +15,11 @@ export interface SiteContent {
   contact_email: string;
   app_download_url: string;
   app_download_text: string;
+  // KAN-257: estas duas flags sao lidas do CMS mas NENHUMA pagina as consome
+  // hoje — ligar no painel nao mostra nada. Os componentes orfaos que existiam
+  // para isso (Stats.tsx e FeatureCard.tsx) foram removidos por serem codigo
+  // morto. Mantidas aqui de proposito para nao quebrar o contrato com o CMS:
+  // ou as secoes sao implementadas, ou as chaves saem tambem do superadmin.
   show_stats: boolean;
   show_testimonials: boolean;
 }
@@ -19,7 +29,10 @@ const DEFAULTS: SiteContent = {
   hero_subtitle:
     'Conectamos clientes a lojas e serviços locais com entrega rápida. Para vendedores, o painel mais simples e poderoso para gerenciar seu negócio digital.',
   platform_description: 'Marketplace local para produtos e serviços. Conectando clientes e vendedores.',
-  contact_whatsapp: '+55 53 8442-4244',
+  // KAN-250: numero corrigido pelo Bruno. O valor antigo ('+55 53 8442-4244')
+  // gerava wa.me/555384424244 — 12 digitos, faltando o 9 do celular. Um numero
+  // BR valido no WhatsApp tem 13 digitos (55 + DDD + 9 digitos).
+  contact_whatsapp: '+55 53 98442-4244',
   contact_email: 'contato@bcmtech.com.br',
   app_download_url: '',
   app_download_text: 'Em breve nas lojas',

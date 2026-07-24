@@ -11,6 +11,9 @@ import {
   fadeInUp, staggerContainer, scaleIn,
   viewportOnce, slideInLeft, slideInRight,
 } from "@/lib/motion";
+// KAN-251: precos vem de lib/pricing.ts (fonte unica) — estavam duplicados
+// aqui, na home, em /planos e no texto do FAQ.
+import { PLAN_MONTHLY_PRICE } from "@/lib/pricing";
 
 const FEATURES = [
   {
@@ -84,7 +87,7 @@ const PLANS = [
   },
   {
     name: "Pro",
-    price: 49.90,
+    price: PLAN_MONTHLY_PRICE.Pro ?? 0,
     period: "mês",
     description: "Para quem quer crescer rápido",
     features: [
@@ -101,7 +104,7 @@ const PLANS = [
   },
   {
     name: "Premium",
-    price: 99.90,
+    price: PLAN_MONTHLY_PRICE.Premium ?? 0,
     period: "mês",
     description: "Para negócios em expansão",
     features: [

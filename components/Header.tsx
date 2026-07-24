@@ -60,7 +60,11 @@ export default function Header() {
             Cadastre sua loja
           </Link>
           <Link
-            href="#download"
+            /* KAN-257: a seção id="download" só existe na home e em /clientes.
+               Em /planos, /faq, /vendedores e /contato o link não tinha alvo e
+               o botão simplesmente não fazia nada. Aponta para uma rota que
+               sempre tem a seção. */
+            href="/clientes#download"
             className="text-sm font-medium px-4 py-2 rounded-lg bg-[#f97316] text-white hover:bg-[#ea6c0a] transition-colors"
           >
             Baixe o app
@@ -100,7 +104,11 @@ export default function Header() {
               Cadastre sua loja
             </Link>
             <Link
-              href="#download"
+              /* KAN-257: a seção id="download" só existe na home e em /clientes.
+               Em /planos, /faq, /vendedores e /contato o link não tinha alvo e
+               o botão simplesmente não fazia nada. Aponta para uma rota que
+               sempre tem a seção. */
+            href="/clientes#download"
               onClick={() => setMobileOpen(false)}
               className="text-sm font-medium px-4 py-2 rounded-lg bg-[#f97316] text-white text-center hover:bg-[#ea6c0a] transition-colors"
             >
