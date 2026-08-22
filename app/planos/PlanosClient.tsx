@@ -10,7 +10,8 @@ import {
   viewportOnce, slideInLeft, slideInRight,
 } from "@/lib/motion";
 
-type Period = "mensal" | "trimestral" | "semestral" | "anual";
+// KAN-251: tipo e tabela de precos vem de lib/pricing.ts (fonte unica).
+import { PLAN_PERIOD_PRICE, type Period } from "@/lib/pricing";
 
 const PERIOD_OPTIONS: { key: Period; label: string; badge?: string }[] = [
   { key: "mensal", label: "Mensal" },
@@ -19,12 +20,9 @@ const PERIOD_OPTIONS: { key: Period; label: string; badge?: string }[] = [
   { key: "anual", label: "Anual", badge: "-30%" },
 ];
 
-const PRICES: Record<string, Record<Period, number | null>> = {
-  Free:       { mensal: 0,     trimestral: 0,     semestral: 0,     anual: 0 },
-  Pro:        { mensal: 49.90, trimestral: 44.90, semestral: 39.90, anual: 34.90 },
-  Premium:    { mensal: 99.90, trimestral: 89.90, semestral: 79.90, anual: 69.90 },
-  Enterprise: { mensal: null,  trimestral: null,  semestral: null,  anual: null },
-};
+// KAN-251: era uma copia local da tabela de precos. Agora aponta para a fonte
+// unica — o toggle de periodicidade continua funcionando igual.
+const PRICES: Record<string, Record<Period, number | null>> = PLAN_PERIOD_PRICE;
 
 const PLAN_FEATURES = {
   Free: [

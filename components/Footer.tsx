@@ -84,7 +84,9 @@ export default async function Footer() {
             © {new Date().getFullYear()} bcmTech Shopping. Todos os direitos reservados.
           </p>
           <div className="flex items-center gap-4">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-[#9ca3af] hover:text-[#f97316] transition-colors">
+            {/* KAN-257: apontava para instagram.com (nenhum perfil), enquanto a
+                pagina de contato aponta para /bcmtech. Unificado no perfil real. */}
+            <a href="https://instagram.com/bcmtech" target="_blank" rel="noopener noreferrer" aria-label="Instagram da bcmTech" className="text-[#9ca3af] hover:text-[#f97316] transition-colors">
               <Share2 className="w-5 h-5" />
             </a>
             <a href={waUrl} target="_blank" rel="noopener noreferrer" className="text-[#9ca3af] hover:text-[#f97316] transition-colors">
